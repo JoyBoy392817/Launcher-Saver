@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.Design.Serialization;
+using System.Security.Cryptography.X509Certificates;
 using Závěrečný_projekt___Launcher_Login_Saver;
 Launchers instance = new Launchers();
 bool loop = false;
+string uloziste = "not_password.txt";
+instance.Load(uloziste);
 while (!loop)
 {
     Console.ForegroundColor = ConsoleColor.Green;
@@ -20,7 +23,7 @@ while (!loop)
         case ConsoleKey.D1:
         case ConsoleKey.A:
             Console.Clear();
-            instance.WriteDown();
+            instance.Save(uloziste);
             break;
         case ConsoleKey.D2:
             instance.ChooseInventory();
