@@ -9,6 +9,7 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
 {
     public class Launchers
     {
+        public int Choose { get; set; }
         private string[] pole;
         public string[] Pole
         {
@@ -25,7 +26,10 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
         {
             pole = new string[8];
             poles = new string[8] { "Steam", "Ubisoft", "Origin", "BattleNet", "Epic Games", "Discord", "Twitch", "Only Fans" };
-
+        }
+        public Launchers(int choose)
+        {
+            this.Choose = choose;
         }
         public void WriteDown()
         {
@@ -124,6 +128,63 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
                     Console.ResetColor();
                 }
                 i++;
+            }
+        }
+        public void Save(string uloziste)
+        {
+            LoginPlatform info = new LoginPlatform();
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(uloziste))
+                {
+
+                    string line = poles[Choose-1];
+                    writer.WriteLine(line);   
+                }  
+            }
+            catch (Exception e)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(e.Message);
+                Console.ResetColor();
+            }
+        }
+        public void Load(string uloziste)
+        {
+            LoginPlatform info = new LoginPlatform();
+            try
+            {
+                if(File.Exists(uloziste))
+                {
+                    using (StreamReader reader = new StreamReader(uloziste))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            string[] parts = line.Split(",");
+                            if (parts.Length == 2)
+                            {
+                                info.Name = parts[0];
+                                info.Password = parts[1];
+                            }
+                            for (int i = 0; i < parts.Length; i++)
+                            {
+                                pole[i] = $"Jméno: {info.Name}, Heslo: {info.Password}";
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Uložistě nenalezeno");
+                }
+                
+            }
+            catch (Exception e)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(e.Message);
+                Console.ResetColor();
             }
         }
     }
