@@ -21,9 +21,9 @@ while (!loop)
     switch (keyInfo.Key)
     {
         case ConsoleKey.D1:
-        case ConsoleKey.A:
+        case ConsoleKey.NumPad1:
             Console.Clear();
-            instance.Save(uloziste);
+            instance.WriteDown();
             break;
         case ConsoleKey.D2:
             instance.ChooseInventory();
@@ -34,6 +34,12 @@ while (!loop)
             break;
         case ConsoleKey.D4:
             loop = true;
+            break;
+        case ConsoleKey.D5:
+            instance.Save(uloziste);
+            break;
+        case ConsoleKey.D6:
+            instance.Load(uloziste);
             break;
         default:
             Console.Clear();

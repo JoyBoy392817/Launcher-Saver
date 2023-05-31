@@ -27,10 +27,6 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
             pole = new string[8];
             poles = new string[8] { "Steam", "Ubisoft", "Origin", "BattleNet", "Epic Games", "Discord", "Twitch", "Only Fans" };
         }
-        public Launchers(int choose)
-        {
-            this.Choose = choose;
-        }
         public void WriteDown()
         {
             Console.Clear();
@@ -132,14 +128,12 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
         }
         public void Save(string uloziste)
         {
-            LoginPlatform info = new LoginPlatform();
+            LoginPlatform loginPlatform = new LoginPlatform();
             try
             {
                 using (StreamWriter writer = new StreamWriter(uloziste))
                 {
-
-                    string line = poles[Choose-1];
-                    writer.WriteLine(line);   
+                    string line = $"{loginPlatform.Name} , {loginPlatform.Password}";
                 }  
             }
             catch (Exception e)
@@ -151,7 +145,7 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
         }
         public void Load(string uloziste)
         {
-            LoginPlatform info = new LoginPlatform();
+            LoginPlatform loginPlatform = new LoginPlatform();
             try
             {
                 if(File.Exists(uloziste))
@@ -159,17 +153,17 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
                     using (StreamReader reader = new StreamReader(uloziste))
                     {
                         string line;
+                        int i = 0;
                         while ((line = reader.ReadLine()) != null)
                         {
                             string[] parts = line.Split(",");
                             if (parts.Length == 2)
                             {
-                                info.Name = parts[0];
-                                info.Password = parts[1];
-                            }
-                            for (int i = 0; i < parts.Length; i++)
-                            {
-                                pole[i] = $"Jméno: {info.Name}, Heslo: {info.Password}";
+                                loginPlatform.Name = parts[0];
+                                loginPlatform.Password = parts[1];
+                                foreach (var e in pole)
+                                {
+                                }
                             }
                         }
                     }
