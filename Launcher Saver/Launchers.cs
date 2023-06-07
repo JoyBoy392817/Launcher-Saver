@@ -27,6 +27,10 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
             pole = new string[8];
             poles = new string[8] { "Steam", "Ubisoft", "Origin", "BattleNet", "Epic Games", "Discord", "Twitch", "Only Fans" };
         }
+        public Launchers(int choose)
+        {
+            this.Choose = choose;
+        }
         public void WriteDown()
         {
             Console.Clear();
@@ -54,7 +58,7 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
                 string inputPassword = Console.ReadLine();
                 info.Name = inputName;
                 info.Password = inputPassword;
-                pole[choose - 1] = "Jméno: " + info.Name + ", Heslo: " + info.Password;
+                pole[choose - 1] = $"{info.Name},{info.Password}";
             }
             catch (Exception ex)
             {
@@ -92,9 +96,15 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
                 }
                 else
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("-----------------------------------");
-                    Console.WriteLine(pole[chosInventory - 1]);
+                    string[] bozongas = pole[chosInventory - 1].Split(",");
+                    Console.WriteLine("Jméno:");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(bozongas[0]);
+                    Console.ResetColor();
+                    Console.WriteLine("Heslo:");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(bozongas[1]);
                     Console.ResetColor();
                 }
             }
@@ -119,8 +129,9 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
                 }
                 else
                 {
+                    string[] karte = e.Split(",");
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(poles[i] + ": " + e);
+                    Console.WriteLine($"{poles[i]}: Jméno: {karte[0]}, Heslo: {karte[1]}");
                     Console.ResetColor();
                 }
                 i++;
@@ -133,7 +144,7 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
             {
                 using (StreamWriter writer = new StreamWriter(uloziste))
                 {
-                    string line = $"{loginPlatform.Name} , {loginPlatform.Password}";
+                    string line = $"{loginPlatform.Name},{loginPlatform.Password}";
                 }  
             }
             catch (Exception e)

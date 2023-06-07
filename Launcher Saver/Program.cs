@@ -3,7 +3,7 @@ using System.Security.Cryptography.X509Certificates;
 using Závěrečný_projekt___Launcher_Login_Saver;
 Launchers instance = new Launchers();
 bool loop = false;
-string uloziste = "not_password.txt";
+string uloziste = $"{instance.Poles[instance.Choose]}.txt";
 instance.Load(uloziste);
 while (!loop)
 {
