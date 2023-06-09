@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.Design.Serialization;
 using System.Security.Cryptography.X509Certificates;
 using Závěrečný_projekt___Launcher_Login_Saver;
+using System.IO;
 Launchers instance = new Launchers();
 bool loop = false;
-string uloziste = $"{instance.Poles[instance.Choose]}.txt";
-instance.Load(uloziste);
+instance.NactiDataZeSouboru();
 while (!loop)
 {
+    instance.UlozDataDoSouboru(instance.uloziste);
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine("----------------------------------------------------");
     Console.WriteLine("MENU - Vyber si operaci");
@@ -34,12 +35,6 @@ while (!loop)
             break;
         case ConsoleKey.D4:
             loop = true;
-            break;
-        case ConsoleKey.D5:
-            instance.Save(uloziste);
-            break;
-        case ConsoleKey.D6:
-            instance.Load(uloziste);
             break;
         default:
             Console.Clear();

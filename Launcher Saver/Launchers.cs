@@ -9,6 +9,7 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
 {
     public class Launchers
     {
+        public string[] uloziste = new string[8];
         public int Choose { get; set; }
         private string[] pole;
         public string[] Pole
@@ -59,6 +60,8 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
                 info.Name = inputName;
                 info.Password = inputPassword;
                 pole[choose - 1] = $"{info.Name},{info.Password}";
+                uloziste[choose - 1] = $"{choose - 1}:{info.Name},{info.Password}";
+                UlozDataDoSouboru(uloziste);
             }
             catch (Exception ex)
             {
@@ -137,61 +140,54 @@ namespace Závěrečný_projekt___Launcher_Login_Saver
                 i++;
             }
         }
-        public void Save(string uloziste)
+        public void UlozDataDoSouboru(string[] data)
         {
-            LoginPlatform loginPlatform = new LoginPlatform();
             try
             {
-                using (StreamWriter writer = new StreamWriter(uloziste))
+                using (StreamWriter sw = new StreamWriter("data.txt"))
                 {
-                    string line = $"{loginPlatform.Name},{loginPlatform.Password}";
-                }  
+                    for (int i = 0; i < data.Length; i++)
+                    {
+                        sw.WriteLine(data[i]);
+                    }
+                }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Chyba při ukládání dat: " + ex.Message);
                 Console.ResetColor();
             }
         }
-        public void Load(string uloziste)
+        public void NactiDataZeSouboru()
         {
-            LoginPlatform loginPlatform = new LoginPlatform();
             try
             {
-                if(File.Exists(uloziste))
+                using (StreamReader sr = new StreamReader("data.txt"))
                 {
-                    using (StreamReader reader = new StreamReader(uloziste))
+                    for (int i = 0; i < uloziste.Length; i++)
                     {
-                        string line;
-                        int i = 0;
-                        while ((line = reader.ReadLine()) != null)
+                        string line = sr.ReadLine();
+                        if (line != null)
                         {
-                            string[] parts = line.Split(",");
+                            string[] parts = line.Split(':');
                             if (parts.Length == 2)
                             {
-                                loginPlatform.Name = parts[0];
-                                loginPlatform.Password = parts[1];
-                                foreach (var e in pole)
-                                {
-                                }
+                                int index = int.Parse(parts[0]);
+                                string data = parts[1];
+                                uloziste[index] = data;
+                                pole[index] = data;
                             }
                         }
                     }
                 }
-                else
-                {
-                    Console.WriteLine("Uložistě nenalezeno");
-                }
-                
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Chyba při načítání dat: " + ex.Message);
                 Console.ResetColor();
             }
         }
     }
 }
-
